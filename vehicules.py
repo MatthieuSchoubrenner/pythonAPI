@@ -62,4 +62,5 @@ class Plane:
 p = Plane ('Airbus A380', 'A380', 900, 700000, 'white')
 p1 = Plane ('Airbus A380', 'A380', 900, 700000, 'white')
 p2 = Plane ('Airbus A380', 'A380', 900, 700000, 'white')
+p3 = Plane ('Airbus A380', 'A380', 900, 700000, 'white')
 
