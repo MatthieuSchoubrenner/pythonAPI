@@ -1,16 +1,56 @@
-# This is a sample Python script.
+from fastapi import Request, FastAPI
+from json import JSONDecodeError
+from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from vehicules import Car, Boat, Motorbike, Plane
+
+app = FastAPI()
+
+@app.get('/start')
+async def getInfo(request: Request):
+    try:
+        data = await request.json()
+        for i in data:
+            print(i)
+    except JSONDecodeError:
+        return JSONResponse({'info': 'API lancée'})
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+@app.get('/vehicules/cars')
+def getNombre():
+    return 'Nombre de voitures :',{Car.counter}
+
+@app.get('/vehicules/boats')
+def getNombre():
+    return 'Nombre de bateaux :',{Boat.counter}
+
+@app.get('/vehicules/motorbikes')
+def getNombre():
+    return 'Nombre de motos :',{Motorbike.counter}
+
+@app.get('/vehicules/planes')
+def getNombre():
+    return "Nombre d'avions : ",{Plane.counter}
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+
+
+
+@app.get('/')
+def getinformation():
+    return True
+
+@app.get('/ifa/user/{id}')
+def getUser(id: int):
+    print(f"l'id est le suivant {id}")
+    return {'userpage': True}
+
+
+# if road doesn't exist
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+    return JSONResponse({"message": "endpoint not found" })
+
